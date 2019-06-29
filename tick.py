@@ -1,5 +1,6 @@
 """A simulation program for my wife's tick game experiment
 todo: add logging to keep track of various things throughout the life of a run
+todo: Make a class for the simulation...
 """
 
 import datetime
