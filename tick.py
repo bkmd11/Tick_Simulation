@@ -103,7 +103,6 @@ class TickSimulationCycle(TickSimulationConstants):
         return tick_dic
 
 
-# todo: Move my animal quantities outside of main so multiple simulations can be run with the same variables
 def main():
     count = 0
 
