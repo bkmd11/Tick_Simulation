@@ -1,12 +1,11 @@
 """A simulation program for my wife's tick game experiment
 todo: add logging to keep track of various things throughout the life of a run
-todo: Make a class for the simulation...
 """
-
 import datetime
 import random
 
 
+# This is setting up and storing all of my variables
 class TickSimulationConstants:
 
     def __init__(self, tick_dic, host_population_list, deer, possum, mouse):
@@ -60,6 +59,8 @@ class TickSimulationConstants:
         return self.host_population_list
 
 
+# This is the everything for the actual simulation
+# All of the variables set up in TickSimulationConstants can be accessed here
 class TickSimulationCycle(TickSimulationConstants):
     # The effects of a tick being on a deer
     def deer_host(self):
@@ -102,12 +103,8 @@ class TickSimulationCycle(TickSimulationConstants):
         return tick_dic
 
 
+# todo: Move my animal quantities outside of main so multiple simulations can be run with the same variables
 def main():
-    number_deer = input('How many deer do you want?: ')
-    number_possum = input('How many possum do you want?: ')
-    number_mouse = input('How many mice do you want?: ')
-    number_tick = input('How many ticks do you want?: ')
-    seasons = input('How many cycles?: ')
     count = 0
 
     simulation = TickSimulationCycle({}, [], int(number_deer), int(number_possum), int(number_mouse))
@@ -136,4 +133,15 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    simulations = input('How many simulations do you want to run?: ')
+    number_deer = input('How many deer do you want?: ')
+    number_possum = input('How many possum do you want?: ')
+    number_mouse = input('How many mice do you want?: ')
+    number_tick = input('How many ticks do you want?: ')
+    seasons = input('How many cycles?: ')
+
+    for i in range(int(simulations)):
+        main()
+
+
+
