@@ -1,3 +1,8 @@
-results.txt
-build
-dist
+*.txt
+*.exe
+*.toc
+*.zip
+*.pkg
+*.pyz
+*.manifest
+*.html
