@@ -6,3 +6,5 @@
 *.pyz
 *.manifest
 *.html
+*.spec
+*.xml
