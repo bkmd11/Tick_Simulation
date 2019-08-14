@@ -4,11 +4,14 @@ import datetime
 import random
 import logging
 
+
 # todo: add some testing for practice
+# todo: break each host into its own class and figure out how to use dunders to get length and dic values
 
 
 class TickSimulationConstants:
     """Setting up and storing all my variables"""
+
     def __init__(self, tick_dictionary, host_population_list, number_of_deer, number_of_possum, number_of_mice):
         self.tick_dictionary = tick_dictionary
         self.host_population_list = host_population_list
@@ -60,11 +63,17 @@ class TickSimulationConstants:
         return self.host_population_list
 
     def __str__(self):
+        """The string of host values"""
         return f'Deer: {self.number_of_deer}\nPossum: {self.number_of_possum}\nMouse: {self.number_of_mice}'
+
+    def __len__(self):
+        """The length of the tick dictionary"""
+        return len(self.tick_dictionary)
 
 
 class TickSimulationCycle(TickSimulationConstants):
     """This is everything for the actual simulation"""
+
     def deer_host(self):
         """The effects of a tick being on a deer"""
         t = datetime.datetime.now()
@@ -107,30 +116,29 @@ class TickSimulationCycle(TickSimulationConstants):
 
 
 def main():
-    log_dir = ''
-    logging.basicConfig(level=logging.DEBUG, filename=(log_dir + 'results.txt'), format='')
+    logging.basicConfig(level=logging.DEBUG, filename='results.txt', format='')
     count = 0
 
     simulation = TickSimulationCycle({}, [], int(number_deer), int(number_possum), int(number_mouse))
 
-    tick_dictionary = simulation.populate_tick_dictionary(number_tick)
-    host_list = simulation.host_population()
+    simulation.populate_tick_dictionary(number_tick)
+    simulation.host_population()
 
     logging.info(str(simulation))
 
     while count < int(seasons):
-        tick_dictionary = simulation.feeding_season(tick_dictionary, host_list)
+        simulation.feeding_season(simulation.tick_dictionary, simulation.host_population_list)
 
         count += 1
-        print(f'Population after season {count}: {len(tick_dictionary.items())}')
-        logging.info(f'Population after season {count}: {len(tick_dictionary.items())}')
+        print(f'Population after season {count}: {len(simulation.tick_dictionary.items())}')
+        logging.info(f'Population after season {count}: {len(simulation.tick_dictionary.items())}')
 
-    tick_pop = len(tick_dictionary)
-    infected_ticks = len(list(filter(None, tick_dictionary.values())))
+    infected_ticks = len(list(filter(None, simulation.tick_dictionary.values())))
 
-    print(f'Total population: {tick_pop}\nInfected ticks: {infected_ticks}\nClean ticks: {tick_pop - infected_ticks}')
+    print(
+        f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}')
     logging.info(
-        f'Total population: {tick_pop}\nInfected ticks: {infected_ticks}\nClean ticks: {tick_pop - infected_ticks}\n\n')
+        f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}\n\n')
 
 
 def setting_variables():
@@ -160,6 +168,3 @@ if __name__ == '__main__':
 
     for i in range(int(simulations)):
         main()
-
-
-
