@@ -2,9 +2,9 @@
 """
 import datetime
 import random
+import logging
 
 # todo: add some testing for practice
-# todo: investigate logging module instead of the way I currently write to a txt file
 
 
 class TickSimulationConstants:
@@ -104,6 +104,8 @@ class TickSimulationCycle(TickSimulationConstants):
 
 
 def main():
+    log_dir = ''
+    logging.basicConfig(level=logging.DEBUG, filename=(log_dir + 'results.txt'), format='')
     count = 0
 
     simulation = TickSimulationCycle({}, [], int(number_deer), int(number_possum), int(number_mouse))
@@ -111,24 +113,22 @@ def main():
     tick_dictionary = simulation.populate_tick_dictionary(number_tick)
     host_list = simulation.host_population()
 
-    results = open('results.txt', 'a')
-    results.write('\n\n')
-    results.write(f'Deer: {simulation.number_of_deer}\nPossum: {simulation.number_of_possum}\nMouse: {simulation.number_of_mice}\n')
+    logging.info(
+        f'Deer: {simulation.number_of_deer}\nPossum: {simulation.number_of_possum}\nMouse: {simulation.number_of_mice}')
 
     while count < int(seasons):
         tick_dictionary = simulation.feeding_season(tick_dictionary, host_list)
 
         count += 1
         print(f'Population after season {count}: {len(tick_dictionary.items())}')
-        results.write(f'Population after season {count}: {len(tick_dictionary.items())}\n')
+        logging.info(f'Population after season {count}: {len(tick_dictionary.items())}')
 
     tick_pop = len(tick_dictionary)
     infected_ticks = len(list(filter(None, tick_dictionary.values())))
 
     print(f'Total population: {tick_pop}\nInfected ticks: {infected_ticks}\nClean ticks: {tick_pop - infected_ticks}')
-    results.write(
-        f'Total population: {tick_pop}\nInfected ticks: {infected_ticks}\nClean ticks: {tick_pop - infected_ticks}')
-    results.close()
+    logging.info(
+        f'Total population: {tick_pop}\nInfected ticks: {infected_ticks}\nClean ticks: {tick_pop - infected_ticks}\n\n')
 
 
 def setting_variables():

@@ -4,7 +4,6 @@
     <list default="true" id="d090c094-f70c-4ada-ad27-fa0de2e8ec73" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tick.py" beforeDir="false" afterPath="$PROJECT_DIR$/tick.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tick.spec" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,12 +20,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="135" />
-    <option name="y" value="5" />
-    <option name="width" value="1750" />
-    <option name="height" value="990" />
   </component>
   <component name="ProjectId" id="1PQvoFE38jPm1LgBo0xMdscNr9m" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
