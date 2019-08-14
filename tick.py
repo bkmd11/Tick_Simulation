@@ -59,6 +59,9 @@ class TickSimulationConstants:
 
         return self.host_population_list
 
+    def __str__(self):
+        return f'Deer: {self.number_of_deer}\nPossum: {self.number_of_possum}\nMouse: {self.number_of_mice}'
+
 
 class TickSimulationCycle(TickSimulationConstants):
     """This is everything for the actual simulation"""
@@ -113,8 +116,7 @@ def main():
     tick_dictionary = simulation.populate_tick_dictionary(number_tick)
     host_list = simulation.host_population()
 
-    logging.info(
-        f'Deer: {simulation.number_of_deer}\nPossum: {simulation.number_of_possum}\nMouse: {simulation.number_of_mice}')
+    logging.info(str(simulation))
 
     while count < int(seasons):
         tick_dictionary = simulation.feeding_season(tick_dictionary, host_list)
