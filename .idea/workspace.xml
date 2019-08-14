@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d090c094-f70c-4ada-ad27-fa0de2e8ec73" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/Analysis-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/EXE-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/PKG-00.pkg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/PKG-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/PYZ-00.pyz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/PYZ-00.toc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/base_library.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/tick.exe.manifest" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/warn-tick.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tick/xref-tick.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/tick.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tick.py" beforeDir="false" afterPath="$PROJECT_DIR$/tick.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tick.spec" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

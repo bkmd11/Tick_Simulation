@@ -2,7 +2,6 @@
 """
 import datetime
 import random
-import logging
 
 # todo: add some testing for practice
 # todo: investigate logging module instead of the way I currently write to a txt file
@@ -132,8 +131,8 @@ def main():
     results.close()
 
 
-# Sets the global variables
 def setting_variables():
+    """Sets the global variables"""
     simulations = input('How many simulations do you want to run?: ')
     number_deer = input('How many deer do you want?: ')
     number_possum = input('How many possum do you want?: ')
