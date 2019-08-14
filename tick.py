@@ -1,13 +1,15 @@
 """A simulation program for my wife's tick game experiment
-todo: add logging to keep track of various things throughout the life of a run
 """
 import datetime
 import random
+import logging
+
+# todo: add some testing for practice
+# todo: investigate logging module instead of the way I currently write to a txt file
 
 
-# This is setting up and storing all of my variables
 class TickSimulationConstants:
-
+    """Setting up and storing all my variables"""
     def __init__(self, tick_dictionary, host_population_list, number_of_deer, number_of_possum, number_of_mice):
         self.tick_dictionary = tick_dictionary
         self.host_population_list = host_population_list
@@ -15,8 +17,8 @@ class TickSimulationConstants:
         self.number_of_possum = number_of_possum
         self.number_of_mice = number_of_mice
 
-    # Generates the tick population
     def populate_tick_dictionary(self, number_of_ticks):
+        """Generates the tick population"""
         count = 0
         for t in range(int(number_of_ticks)):
             self.tick_dictionary[f'tick{count}'] = False
@@ -24,32 +26,32 @@ class TickSimulationConstants:
 
         return self.tick_dictionary
 
-    # Sets the starting number of deer
     def deer_quantity(self):
+        """Sets the starting number of deer"""
         deer_list = []
         for deer in range(int(self.number_of_deer)):
             deer_list.append('deer')
 
         return deer_list
 
-    # Sets the starting number of possum
     def possum_quantity(self):
+        """Sets the starting number of possum"""
         possum_list = []
         for possum in range(int(self.number_of_possum)):
             possum_list.append('possum')
 
         return possum_list
 
-    # Sets the starting number of mice
     def mouse_quantity(self):
+        """Sets the starting number of mice"""
         mouse_list = []
         for mouse in range(int(self.number_of_mice)):
             mouse_list.append('mouse')
 
         return mouse_list
 
-    # Makes the list of possible hosts
     def host_population(self):
+        """Makes the list of possible hosts"""
         deer_list = self.deer_quantity()
         possum_list = self.possum_quantity()
         mouse_list = self.mouse_quantity()
@@ -59,24 +61,23 @@ class TickSimulationConstants:
         return self.host_population_list
 
 
-# This is the everything for the actual simulation
-# All of the variables set up in TickSimulationConstants can be accessed here
 class TickSimulationCycle(TickSimulationConstants):
-    # The effects of a tick being on a deer
+    """This is everything for the actual simulation"""
     def deer_host(self):
+        """The effects of a tick being on a deer"""
         t = datetime.datetime.now()
         self.tick_dictionary[f'tick{t}'] = False
 
         return self.tick_dictionary
 
-    # The effects of a tick being on a possum
     def possum_host(self, tick):
+        """The effects of a tick being on a possum"""
         del self.tick_dictionary[tick]
 
         return self.tick_dictionary
 
-    # The effects of a tick being on a mouse
     def mouse_host(self, tick):
+        """The effects of a tick being on a mouse"""
         r = random.choice([1, 2])
         if r == 1:
             self.tick_dictionary[tick] = True
@@ -85,8 +86,8 @@ class TickSimulationCycle(TickSimulationConstants):
 
         return self.tick_dictionary
 
-    # The run of a single cycle of feeding
     def feeding_season(self, tick_dictionary, list_of_hosts):
+        """The run of a single cycle of feeding"""
         list_of_ticks = list(tick_dictionary.keys())
 
         for tick in list_of_ticks:

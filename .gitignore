@@ -8,3 +8,5 @@
 *.html
 *.spec
 *.xml
+buil//
+dist//
