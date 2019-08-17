@@ -5,22 +5,18 @@ import random
 import logging
 
 
-# todo: add some testing for practice
 # todo: break each host into its own class and figure out how to use dunders to get length and dic values
-# todo: I am being stupid with my host_quantity methods. They make a list that is just used to make a bigger list for
-#  my host_population_list. This is not efficient
 
 
 class TickSimulationConstants:
     """Setting up and storing all my variables"""
 
-    def __init__(self, tick_dictionary, host_population_list, number_of_deer, number_of_possum, number_of_mice):
-        self.tick_dictionary = tick_dictionary
-        self.host_population_list = host_population_list
-
-        self.number_of_deer = number_of_deer
-        self.number_of_possum = number_of_possum
-        self.number_of_mice = number_of_mice
+    def __init__(self):
+        self.tick_dictionary = {}
+        self.deer_list = []
+        self.possum_list = []
+        self.mouse_list = []
+        self.host_population_list = []
 
     def populate_tick_dictionary(self, number_of_ticks):
         """Generates the tick population"""
@@ -31,43 +27,36 @@ class TickSimulationConstants:
 
         return self.tick_dictionary
 
-    def deer_quantity(self):
+    def deer_quantity(self, number_of_deer):
         """Sets the starting number of deer"""
-        deer_list = []
-        for deer in range(int(self.number_of_deer)):
-            deer_list.append('deer')
+        for deer in range(number_of_deer):
+            self.deer_list.append('deer')
 
-        return deer_list
+        return self.deer_list
 
-    def possum_quantity(self):
+    def possum_quantity(self, number_of_possum):
         """Sets the starting number of possum"""
-        possum_list = []
-        for possum in range(int(self.number_of_possum)):
-            possum_list.append('possum')
+        for possum in range(number_of_possum):
+            self.possum_list.append('possum')
 
-        return possum_list
+        return self.possum_list
 
-    def mouse_quantity(self):
+    def mouse_quantity(self, number_of_mice):
         """Sets the starting number of mice"""
-        mouse_list = []
-        for mouse in range(int(self.number_of_mice)):
-            mouse_list.append('mouse')
+        for mouse in range(number_of_mice):
+            self.mouse_list.append('mouse')
 
-        return mouse_list
+        return self.mouse_list
 
     def host_population(self):
         """Makes the list of possible hosts"""
-        deer_list = self.deer_quantity()
-        possum_list = self.possum_quantity()
-        mouse_list = self.mouse_quantity()
-
-        self.host_population_list = deer_list + possum_list + mouse_list
+        self.host_population_list = self.deer_list + self.possum_list + self.mouse_list
 
         return self.host_population_list
 
     def __str__(self):
         """The string of host values"""
-        return f'Deer: {self.number_of_deer}\nPossum: {self.number_of_possum}\nMouse: {self.number_of_mice}'
+        return f'Deer: {len(self.deer_list)}\nPossum: {len(self.possum_list)}\nMouse: {len(self.mouse_list)}'
 
     def __len__(self):
         """The length of the tick dictionary"""
@@ -76,7 +65,6 @@ class TickSimulationConstants:
 
 class TickSimulationCycle(TickSimulationConstants):
     """This is everything for the actual simulation"""
-
     def deer_host(self):
         """The effects of a tick being on a deer"""
         t = datetime.datetime.now()
@@ -100,60 +88,60 @@ class TickSimulationCycle(TickSimulationConstants):
 
         return self.tick_dictionary
 
-    def feeding_season(self, tick_dictionary, list_of_hosts):
+    def feeding_season(self):
         """The run of a single cycle of feeding"""
-        list_of_ticks = list(tick_dictionary.keys())
+        list_of_ticks = list(self.tick_dictionary.keys())
 
         for tick in list_of_ticks:
-            host = random.choice(list_of_hosts)
+            host = random.choice(self.host_population_list)
             if host == 'deer':
-                tick_dictionary = self.deer_host()
+                self.tick_dictionary = self.deer_host()
 
             elif host == 'mouse':
-                tick_dictionary = self.mouse_host(tick)
+                self.tick_dictionary = self.mouse_host(tick)
 
             elif host == 'possum':
-                tick_dictionary = self.possum_host(tick)
+                self.tick_dictionary = self.possum_host(tick)
 
-        return tick_dictionary
+        return self.tick_dictionary
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG, filename='results.txt', format='')
     count = 0
 
-    simulation = TickSimulationCycle({}, [], int(number_deer), int(number_possum), int(number_mouse))
+    simulation = TickSimulationCycle()
 
-    simulation.populate_tick_dictionary(number_tick)
+    simulation.populate_tick_dictionary(int(number_tick))
+    simulation.deer_quantity(int(number_deer))
+    simulation.possum_quantity(int(number_possum))
+    simulation.mouse_quantity(int(number_mouse))
     simulation.host_population()
 
     logging.info(str(simulation))
 
     while count < int(seasons):
-        simulation.feeding_season(simulation.tick_dictionary, simulation.host_population_list)
-
+        simulation.feeding_season()
         count += 1
-        print(f'Population after season {count}: {len(simulation.tick_dictionary.items())}')
+
         logging.info(f'Population after season {count}: {len(simulation.tick_dictionary.items())}')
 
     infected_ticks = len(list(filter(None, simulation.tick_dictionary.values())))
 
-    print(
-        f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}')
     logging.info(
         f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}\n\n')
 
 
 def setting_variables():
     """Sets the global variables"""
-    simulations = input('How many simulations do you want to run?: ')
-    number_deer = input('How many deer do you want?: ')
-    number_possum = input('How many possum do you want?: ')
-    number_mouse = input('How many mice do you want?: ')
-    number_tick = input('How many ticks do you want?: ')
-    seasons = input('How many cycles?: ')
+    number_of_simulations = input('How many simulations do you want to run?: ')
+    number_of_deer = input('How many deer do you want?: ')
+    number_of_possum = input('How many possum do you want?: ')
+    number_of_mice = input('How many mice do you want?: ')
+    number_of_ticks = input('How many ticks do you want?: ')
+    cycles = input('How many cycles?: ')
 
-    return simulations, number_deer, number_possum, number_mouse, number_tick, seasons
+    return number_of_simulations, number_of_deer, number_of_possum, number_of_mice, number_of_ticks, cycles
 
 
 if __name__ == '__main__':
@@ -171,3 +159,5 @@ if __name__ == '__main__':
 
     for i in range(int(simulations)):
         main()
+
+    print('Simulation complete, check results.txt or run again...')
