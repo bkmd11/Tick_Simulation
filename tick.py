@@ -7,6 +7,8 @@ import logging
 
 # todo: add some testing for practice
 # todo: break each host into its own class and figure out how to use dunders to get length and dic values
+# todo: I am being stupid with my host_quantity methods. They make a list that is just used to make a bigger list for
+#  my host_population_list. This is not efficient
 
 
 class TickSimulationConstants:
@@ -15,6 +17,7 @@ class TickSimulationConstants:
     def __init__(self, tick_dictionary, host_population_list, number_of_deer, number_of_possum, number_of_mice):
         self.tick_dictionary = tick_dictionary
         self.host_population_list = host_population_list
+
         self.number_of_deer = number_of_deer
         self.number_of_possum = number_of_possum
         self.number_of_mice = number_of_mice
