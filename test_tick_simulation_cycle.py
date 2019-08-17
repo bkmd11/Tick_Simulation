@@ -1,4 +1,5 @@
 import unittest
+import unittest.mock
 import tick
 
 
@@ -28,16 +29,50 @@ class TestTickSimulationCycle(unittest.TestCase):
 
         self.assertNotIn('tick0', result)
 
-    # todo: figure out how to mock the random choice feature, or else it will fail sometimes
-    def test_mouse_host(self):
+    def test_mouse_host_choice_true(self):
         """Tests that mouse_host changes tick to True"""
         mouse_host = tick.TickSimulationCycle()
         mouse_host.populate_tick_dictionary(3)
-        result = mouse_host.mouse_host('tick0')
+        with unittest.mock.patch('random.choice', return_value=1):
+            result = mouse_host.mouse_host('tick0')
 
         self.assertEqual(result['tick0'], True)
 
-    # todo: figure out mocking random choices for feeding_season
+    def test_mouse_host_choice_false(self):
+        """Tests that mouse_host keeps the tick False"""
+        mouse_host = tick.TickSimulationCycle()
+        mouse_host.populate_tick_dictionary(3)
+        with unittest.mock.patch('random.choice', return_value=2):
+            result = mouse_host.mouse_host('tick0')
+
+        self.assertEqual(result['tick0'], False)
+
+    def test_feeding_season_deer_host(self):
+        """Tests the a deer host gets found"""
+        ticks = tick.TickSimulationCycle()
+        ticks.populate_tick_dictionary(1)
+        with unittest.mock.patch('random.choice', return_value='deer'):
+            result = ticks.feeding_season()
+
+        self.assertEqual(len(result), 2)
+
+    def test_feeding_season_mouse_host(self):
+        """Tests the mouse host gets found"""
+        ticks = tick.TickSimulationCycle()
+        ticks.populate_tick_dictionary(1)
+        with unittest.mock.patch('random.choice', return_value='mouse'):
+            result = ticks.feeding_season()
+
+        self.assertEqual(len(result), 1)
+
+    def test_feeding_season_possum_host(self):
+        """Tests the possum host gets found"""
+        ticks = tick.TickSimulationCycle()
+        ticks.populate_tick_dictionary(1)
+        with unittest.mock.patch('random.choice', return_value='possum'):
+            result = ticks.feeding_season()
+
+        self.assertEqual(len(result), 0)
 
 
 if __name__ == '__main__':

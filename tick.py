@@ -5,9 +5,6 @@ import random
 import logging
 
 
-# todo: break each host into its own class and figure out how to use dunders to get length and dic values
-
-
 class TickSimulationConstants:
     """Setting up and storing all my variables"""
 
@@ -112,15 +109,15 @@ def main():
 
     simulation = TickSimulationCycle()
 
-    simulation.populate_tick_dictionary(int(number_tick))
-    simulation.deer_quantity(int(number_deer))
-    simulation.possum_quantity(int(number_possum))
-    simulation.mouse_quantity(int(number_mouse))
+    simulation.populate_tick_dictionary(int(number_of_ticks))
+    simulation.deer_quantity(int(number_of_deer))
+    simulation.possum_quantity(int(number_of_possum))
+    simulation.mouse_quantity(int(number_of_mice))
     simulation.host_population()
 
     logging.info(str(simulation))
 
-    while count < int(seasons):
+    while count < int(cycles):
         simulation.feeding_season()
         count += 1
 
@@ -132,32 +129,28 @@ def main():
         f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}\n\n')
 
 
-def setting_variables():
-    """Sets the global variables"""
-    number_of_simulations = input('How many simulations do you want to run?: ')
-    number_of_deer = input('How many deer do you want?: ')
-    number_of_possum = input('How many possum do you want?: ')
-    number_of_mice = input('How many mice do you want?: ')
-    number_of_ticks = input('How many ticks do you want?: ')
-    cycles = input('How many cycles?: ')
-
-    return number_of_simulations, number_of_deer, number_of_possum, number_of_mice, number_of_ticks, cycles
-
-
 if __name__ == '__main__':
-    simulations, number_deer, number_possum, number_mouse, number_tick, seasons = setting_variables()
+    while True:
+        number_of_simulations = input('How many simulations do you want to run?: ')
+        number_of_deer = input('How many deer do you want?: ')
+        number_of_possum = input('How many possum do you want?: ')
+        number_of_mice = input('How many mice do you want?: ')
+        number_of_ticks = input('How many ticks do you want?: ')
+        cycles = input('How many cycles?: ')
 
-    try:
-        int(simulations)
-        int(number_deer)
-        int(number_possum)
-        int(number_mouse)
-        int(seasons)
-    except ValueError:
-        print('Must be an integer, please retry')
-        simulations, number_deer, number_possum, number_mouse, number_tick, seasons = setting_variables()
+        try:
+            int(number_of_simulations)
+            int(number_of_deer)
+            int(number_of_possum)
+            int(number_of_mice)
+            int(number_of_ticks)
+            int(cycles)
 
-    for i in range(int(simulations)):
+            break
+        except ValueError:
+            print('Must be an integer, please retry')
+
+    for i in range(int(cycles)):
         main()
 
     print('Simulation complete, check results.txt or run again...')
