@@ -7,49 +7,12 @@ import logging
 
 class TickSimulationConstants:
     """Setting up and storing all my variables"""
-
-    def __init__(self):
-        self.tick_dictionary = {}
-        self.deer_list = []
-        self.possum_list = []
-        self.mouse_list = []
-        self.host_population_list = []
-
-    def populate_tick_dictionary(self, number_of_ticks):
-        """Generates the tick population"""
-        count = 0
-        for t in range(int(number_of_ticks)):
-            self.tick_dictionary[f'tick{count}'] = False
-            count += 1
-
-        return self.tick_dictionary
-
-    def deer_quantity(self, number_of_deer):
-        """Sets the starting number of deer"""
-        for deer in range(number_of_deer):
-            self.deer_list.append('deer')
-
-        return self.deer_list
-
-    def possum_quantity(self, number_of_possum):
-        """Sets the starting number of possum"""
-        for possum in range(number_of_possum):
-            self.possum_list.append('possum')
-
-        return self.possum_list
-
-    def mouse_quantity(self, number_of_mice):
-        """Sets the starting number of mice"""
-        for mouse in range(number_of_mice):
-            self.mouse_list.append('mouse')
-
-        return self.mouse_list
-
-    def host_population(self):
-        """Makes the list of possible hosts"""
+    def __init__(self, number_of_ticks, number_of_deer, number_of_possum, number_of_mice):
+        self.tick_dictionary = {f'tick{tick}': False for tick in range(number_of_ticks)}
+        self.deer_list = ['deer' for deer in range(number_of_deer)]
+        self.possum_list = ['possum' for possum in range(number_of_possum)]
+        self.mouse_list = ['mouse' for mouse in range(number_of_mice)]
         self.host_population_list = self.deer_list + self.possum_list + self.mouse_list
-
-        return self.host_population_list
 
     def __str__(self):
         """The string of host values"""
@@ -77,11 +40,9 @@ class TickSimulationCycle(TickSimulationConstants):
 
     def mouse_host(self, tick):
         """The effects of a tick being on a mouse"""
-        r = random.choice([1, 2])
-        if r == 1:
+        r = random.choice(['infect', 'not infect'])
+        if r == 'infect':
             self.tick_dictionary[tick] = True
-        else:
-            pass
 
         return self.tick_dictionary
 
@@ -107,26 +68,21 @@ def main():
     logging.basicConfig(level=logging.DEBUG, filename='results.txt', format='')
     count = 0
 
-    simulation = TickSimulationCycle()
-
-    simulation.populate_tick_dictionary(int(number_of_ticks))
-    simulation.deer_quantity(int(number_of_deer))
-    simulation.possum_quantity(int(number_of_possum))
-    simulation.mouse_quantity(int(number_of_mice))
-    simulation.host_population()
+    simulation = TickSimulationCycle(number_of_ticks, number_of_deer, number_of_possum, number_of_mice)
 
     logging.info(str(simulation))
 
-    while count < int(cycles):
+    while count < int(number_of_cycles):
         simulation.feeding_season()
         count += 1
 
         logging.info(f'Population after season {count}: {len(simulation.tick_dictionary.items())}')
 
-    infected_ticks = len(list(filter(None, simulation.tick_dictionary.values())))
+    infected_ticks = [tick for tick in simulation.tick_dictionary if simulation.tick_dictionary[tick]]
 
     logging.info(
-        f'Total population: {len(simulation)}\nInfected ticks: {infected_ticks}\nClean ticks: {len(simulation) - infected_ticks}\n\n')
+        f'Total population: {len(simulation)}\nInfected ticks: {len(infected_ticks)}\nClean ticks: {len(simulation) - len(infected_ticks)}\n\n'
+    )
 
 
 if __name__ == '__main__':
@@ -136,21 +92,21 @@ if __name__ == '__main__':
         number_of_possum = input('How many possum do you want?: ')
         number_of_mice = input('How many mice do you want?: ')
         number_of_ticks = input('How many ticks do you want?: ')
-        cycles = input('How many cycles?: ')
+        number_of_cycles = input('How many cycles?: ')
 
         try:
-            int(number_of_simulations)
-            int(number_of_deer)
-            int(number_of_possum)
-            int(number_of_mice)
-            int(number_of_ticks)
-            int(cycles)
+            number_of_simulations = int(number_of_simulations)
+            number_of_deer = int(number_of_deer)
+            number_of_possum = int(number_of_possum)
+            number_of_mice = int(number_of_mice)
+            number_of_ticks = int(number_of_ticks)
+            number_of_cycles = int(number_of_cycles)
 
             break
         except ValueError:
             print('Must be an integer, please retry')
 
-    for i in range(int(cycles)):
+    for i in range(int(number_of_cycles)):
         main()
 
     print('Simulation complete, check results.txt or run again...')
