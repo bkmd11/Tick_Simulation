@@ -1,4 +1,11 @@
-"""A simulation program for my wife's tick game experiment
+"""A simulation program for my wife's tick game experiment. Designed for setting the rules for a game of "tag"
+to teach children about lyme disease and the life cycle of ticks.
+Three different "host" options will have three different side effects on the ticks.
+Deer hosts will allow a new tick to be created
+Possum host will remove one tick from the game/simulation
+and a mouse host will give a 50/50 chance of becoming infected with lyme.
+
+The main purpose is to help her decide starting values for each role for a summer class she is teaching about ticks.
 """
 import datetime
 import random
@@ -68,11 +75,16 @@ def main():
     logging.basicConfig(level=logging.DEBUG, filename='results.txt', format='')
     count = 0
 
-    simulation = TickSimulationCycle(number_of_ticks, number_of_deer, number_of_possum, number_of_mice)
+    simulation = TickSimulationCycle(
+        number_of_ticks,
+        number_of_deer,
+        number_of_possum,
+        number_of_mice
+    )
 
     logging.info(str(simulation))
 
-    while count < int(number_of_cycles):
+    while count < number_of_cycles:
         simulation.feeding_season()
         count += 1
 
@@ -85,28 +97,34 @@ def main():
     )
 
 
-if __name__ == '__main__':
+def read_int():
+    """A function for converting strings of numbers to integers"""
     while True:
-        number_of_simulations = input('How many simulations do you want to run?: ')
-        number_of_deer = input('How many deer do you want?: ')
-        number_of_possum = input('How many possum do you want?: ')
-        number_of_mice = input('How many mice do you want?: ')
-        number_of_ticks = input('How many ticks do you want?: ')
-        number_of_cycles = input('How many cycles?: ')
-
+        text = input()
         try:
-            number_of_simulations = int(number_of_simulations)
-            number_of_deer = int(number_of_deer)
-            number_of_possum = int(number_of_possum)
-            number_of_mice = int(number_of_mice)
-            number_of_ticks = int(number_of_ticks)
-            number_of_cycles = int(number_of_cycles)
-
+            value = int(text)
             break
         except ValueError:
-            print('Must be an integer, please retry')
+            print('Must be a valid integer, please enter again.')
 
-    for i in range(int(number_of_cycles)):
+    return value
+
+
+if __name__ == '__main__':
+    print('How many simulations do you want to run?: ')
+    number_of_simulations = read_int()
+    print('How many deer do you want?: ')
+    number_of_deer = read_int()
+    print('How many possum do you want?: ')
+    number_of_possum = read_int()
+    print('How many mice do you want?: ')
+    number_of_mice = read_int()
+    print('How many ticks do you want?: ')
+    number_of_ticks = read_int()
+    print('How many cycles?: ')
+    number_of_cycles = read_int()
+
+    for i in range(number_of_cycles):
         main()
 
     print('Simulation complete, check results.txt or run again...')
